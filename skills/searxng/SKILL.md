@@ -1,6 +1,6 @@
 ---
 name: searxng
-description: Self-hosted metasearch engine integration (requires deployed SearXNG instance). Provides free, unlimited web search using SearXNG API.
+description: Self-hosted web_search capability using SearXNG metasearch engine. Aggregates 70+ search engines for free, unlimited searches. Works with agent's web_fetch for full content. Requires deployed SearXNG instance.
 ---
 
 # SearXNG Search Skill
