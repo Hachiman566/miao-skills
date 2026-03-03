@@ -1,15 +1,34 @@
 ---
 name: searxng
-description: Self-hosted metasearch engine integration for AI agents. Provides free, unlimited web search using a self-hosted SearXNG instance.
+description: Self-hosted metasearch engine integration (requires deployed SearXNG instance). Provides free, unlimited web search using SearXNG API.
 ---
 
 # SearXNG Search Skill
 
 Self-hosted metasearch engine integration for AI agents.
 
+> **⚠️ Prerequisites Required**
+>
+> This skill requires a **running SearXNG instance** to work. You must deploy SearXNG first before using this skill.
+>
+> See the [Deployment](#deployment) section below for instructions.
+
 ## What it does
 
 Provides free, unlimited web search using a self-hosted SearXNG instance.
+
+## Prerequisites Check
+
+Before using this skill, verify SearXNG is running:
+
+```bash
+# Check if SearXNG is accessible
+curl http://localhost:8888/search?q=test&format=json
+
+# Should return JSON with search results
+```
+
+If the command fails, SearXNG is not running. Deploy it first using the instructions below.
 
 ## When to use
 
