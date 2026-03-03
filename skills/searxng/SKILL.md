@@ -17,6 +17,22 @@ Self-hosted metasearch engine integration for AI agents.
 
 Provides free, unlimited web search using a self-hosted SearXNG instance.
 
+## Default Usage Pattern
+
+**When using this skill, follow this pattern by default:**
+
+```
+1. Search with SearXNG → Get titles, URLs, snippets
+2. Use snippets directly if they contain the answer
+3. Only fetch full pages if more detail is needed
+4. Limit to top 3-5 results
+```
+
+**Key principles:**
+- Search snippets often contain the answer - use them first
+- Fetching full pages costs more tokens - only do it when necessary
+- Be selective with results - more results = more tokens
+
 ## Prerequisites Check
 
 Before using this skill, verify SearXNG is running:
@@ -167,8 +183,130 @@ SearXNG aggregates 70+ search engines including:
 - **Flexible**: Aggregate multiple engines
 - **No Rate Limits**: Your own instance
 
+## Best Practices
+
+**Default Behavior for Agents:**
+
+When using this skill, follow these practices by default:
+
+1. **Use search snippets first** - Don't fetch full pages unless needed
+2. **Limit to top 3-5 results** - More results = more tokens
+3. **Use precise keywords** - Short queries work better
+4. **Specify target engines** - Reduces noise and token usage
+5. **Filter by time range when relevant** - Get recent results only
+
+### Recommended Usage Order (Most Efficient)
+
+| Method | Token Usage | Speed | When to Use |
+|---------|--------------|--------|-------------|
+| `searxng_search` tool | ⭐⭐⭐ Lowest | Fast | **Primary choice** |
+| `web_fetch` with SearXNG | ⭐⭐ Low | Fast | Fallback |
+| `browser` with Google | ⭐ High | Slow | When login needed |
+
+### Standard Practices
+
+1. **Limit Results Count**
+```javascript
+// Only fetch first page (fewer results = less tokens)
+searxng_search({ query: "rust", pageno: 1 })
+```
+
+2. **Specify Target Engines**
+```javascript
+// Use only relevant engines to reduce noise
+searxng_search({
+  query: "javascript error",
+  engines: "stackoverflow,github"  // Developer-focused
+})
+
+// Chinese search
+searxng_search({
+  query: "人工智能",
+  engines: "baidu,bing",
+  lang: "zh"
+})
+```
+
+3. **Use Precise Keywords**
+```
+❌ "帮我找一下关于 rust 语言的编程相关的资料和教程"
+✅ "rust 编程教程"
+
+❌ "搜索一下最新的人工智能新闻和动态"
+✅ "AI 最新新闻"
+```
+
+4. **Filter by Time Range**
+```javascript
+// Recent results only (less data to process)
+searxng_search({
+  query: "openclaw update",
+  time_range: "week"  // day/week/month/year
+})
+```
+
+5. **Avoid Content Parsing When Possible**
+```javascript
+// ❌ This fetches full page content (high token usage)
+const page = await web_fetch({ url: resultUrl })
+const summary = await summarize({ text: page })
+
+// ✅ Use search snippet directly (low token usage)
+const results = await searxng_search({ query: "openclaw" })
+for (const r of results.slice(0, 3)) {
+  // Use r.content (snippet) instead of fetching full page
+}
+```
+
+### When `web_fetch` is Blocked
+
+If `web_fetch` shows "Blocked hostname" error (localhost SSRF protection):
+
+```javascript
+// Fallback: Use browser tool instead
+// This costs more tokens but works reliably
+
+// Tell agent to use browser
+"用浏览器搜索：openclaw github"
+
+// Agent will:
+// 1. Open https://www.google.com/search?q=openclaw+github
+// 2. Read results page
+// 3. Extract relevant information
+```
+
+### Comparison: SearXNG vs Paid Search APIs
+
+| Feature | SearXNG | Brave | Perplexity | Gemini |
+|---------|---------|--------|------------|---------|
+| **Cost** | Free ✅ | Paid | Paid | Paid |
+| **Token Usage** | Low ⭐ | Low | Very Low | Very Low |
+| **AI Summary** | ❌ | ❌ | ✅ | ✅ |
+| **Rate Limits** | Unlimited ✅ | Limited | Limited | Limited |
+| **Privacy** | Self-hosted ✅ | Third-party | Third-party | Third-party |
+
+**Recommendation**: Use SearXNG for unlimited searches. Use Perplexity/Gemini when you need AI-summarized answers to save tokens.
+
+### Quick Reference
+
+```javascript
+// ✅ Low token usage
+const results = await searxng_search({ query: "rust async" });
+
+// Process only top 3 results
+for (const r of results.slice(0, 3)) {
+  console.log(`${r.title}: ${r.url}`);
+  // Use r.content (snippet) - already has answer
+}
+
+// ❌ High token usage
+const page = await web_fetch({ url: result.url });  // Full page fetch
+const summary = await summarize({ text: page });
+```
+
 ## Notes
 
 - First request may be slow (engine warm-up)
 - Run on a server with public IP for remote access
 - For production, consider adding authentication
+- `web_fetch` may block localhost due to SSRF protection - use `browser` tool as fallback
