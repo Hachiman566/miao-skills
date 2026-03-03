@@ -1,55 +1,84 @@
-# Miao Skills
+# 🎯 Miao Skills
 
-A collection of useful skills for AI agents (Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, and more).
+[![skills](https://img.shields.io/badge/skills-ai%20agents-blue)](https://skills.sh/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Available Skills
+A collection of useful skills for AI agents including Claude Code, Cursor, Codex, Gemini CLI, OpenClaw, and 40+ more agents.
 
-### [searxng](./skills/searxng/SKILL.md)
+## 📦 Available Skills
+
+### 🔍 [searxng](./skills/searxng/SKILL.md)
+
 Self-hosted metasearch engine integration for AI agents. Provides free, unlimited web search using a self-hosted SearXNG instance.
 
-## Installation
+**Features:**
+- 🆓 Free, unlimited web search
+- 🔒 Privacy-focused, self-hosted
+- 🌐 Aggregates 70+ search engines
+- 💰 No API costs or rate limits
+
+## 🚀 Quick Install
+
+### Install searxng Skill
+
+```bash
+npx skills add Hachiman566/miao-skills --skill searxng
+```
 
 ### Install All Skills
 
 ```bash
-npx skills add <your-username>/miao-skills
+npx skills add Hachiman566/miao-skills
 ```
 
-### Install Specific Skill
+### Install Globally (Recommended)
 
 ```bash
-npx skills add <your-username>/miao-skills --skill searxng
+npx skills add Hachiman566/miao-skills --global --skill searxng
 ```
 
-### Install for Specific Agent
+## 📚 Supported Agents
 
-```bash
-# For Claude Code
-npx skills add <your-username>/miao-skills --agent claude-code --skill searxng
+This skill works with all agents in the [skills ecosystem](https://skills.sh/):
 
-# For Cursor
-npx skills add <your-username>/miao-skills --agent cursor --skill searxng
+- Claude Code
+- Cursor
+- Codex
+- Gemini CLI
+- OpenClaw
+- And 40+ more
 
-# Install globally
-npx skills add <your-username>/miao-skills --global --skill searxng
-```
+## 🤝 Contributing
 
-## Contributing
-
-Contributions are welcome! Feel free to:
+Contributions are welcome!
 
 1. Fork this repository
 2. Create a new skill in `skills/<skill-name>/SKILL.md`
-3. Submit a pull request
+3. Follow the [skill guidelines](#-skill-guidelines)
+4. Submit a pull request
 
-## Skill Guidelines
+## 📋 Skill Guidelines
 
-Each skill should have:
-- Proper frontmatter with `name` and `description`
-- Clear "When to use" section
-- Step-by-step instructions
-- Code examples where applicable
+Each skill should include:
 
-## License
+- ✅ Proper YAML frontmatter with `name` and `description`
+- ✅ Clear "When to use" section
+- ✅ Step-by-step instructions
+- ✅ Code examples where applicable
 
-MIT
+**Example frontmatter:**
+
+```yaml
+---
+name: my-skill
+description: A brief description of what this skill does
+---
+```
+
+## 📖 License
+
+MIT © [Hachiman566](https://github.com/Hachiman566)
+
+---
+
+**Made with ❤️ for the AI agent community**
