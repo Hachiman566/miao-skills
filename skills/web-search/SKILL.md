@@ -9,26 +9,33 @@ description: Free unlimited web search via self-hosted SearXNG (aggregates Googl
 
 ## Searching
 
-Query the local SearXNG instance via `web_fetch`:
+Query the local SearXNG instance via `curl` (preferred — WebFetch blocks localhost):
 
+```bash
+curl -s "http://localhost:8888/search?q=YOUR+QUERY&format=json"
 ```
-http://localhost:8888/search?q=YOUR+QUERY&format=json
-```/
 
 **Common variations:**
 
 ```bash
 # Target specific engines (reduces noise)
-http://localhost:8888/search?q=react+hooks&engines=google,bing&format=json
+curl -s "http://localhost:8888/search?q=react+hooks&engines=google,bing&format=json"
 
 # Filter by recency
-http://localhost:8888/search?q=openai+news&time_range=week&format=json
+curl -s "http://localhost:8888/search?q=openai+news&time_range=week&format=json"
 
 # Chinese content
-http://localhost:8888/search?q=人工智能&engines=baidu,bing&lang=zh&format=json
+curl -s "http://localhost:8888/search?q=人工智能&engines=baidu,bing&lang=zh&format=json"
 
 # Dev/code questions
-http://localhost:8888/search?q=rust+async+error&engines=stackoverflow,github&format=json
+curl -s "http://localhost:8888/search?q=rust+async+error&engines=stackoverflow,github&format=json"
+```
+
+**Parse results with python (recommended):**
+
+```bash
+curl -s "http://localhost:8888/search?q=YOUR+QUERY&format=json" | \
+  python3 -c "import sys,json; data=json.load(sys.stdin); [print(f'- {r[\"title\"]}\n  {r[\"url\"]}\n  {r[\"content\"][:150]}') for r in data.get('results',[])[:5]]"
 ```
 
 ## Parameters
@@ -53,9 +60,17 @@ http://localhost:8888/search?q=rust+async+error&engines=stackoverflow,github&for
 - Chinese content: `engines=baidu,bing&lang=zh`
 - Recent events: append `&time_range=week`
 
-## If `web_fetch` blocks localhost
+## If SearXNG is not running
 
-Some environments block `localhost` requests (SSRF protection). If you see a "Blocked hostname" error, fall back to the `browser` tool and search via Google directly — it costs more tokens but works reliably.
+Run the setup script first, then retry:
+
+```bash
+bash skills/web-search/scripts/setup.sh
+```
+
+## Note on WebFetch
+
+Do NOT use `WebFetch` for SearXNG — it blocks all local/private addresses (localhost, 127.0.0.1, 192.168.x.x, [::1], custom hosts entries) due to SSRF protection. Always use `curl` via Bash.
 
 ## Notes
 
