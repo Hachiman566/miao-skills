@@ -1,6 +1,6 @@
 ---
 name: searxng
-description: Free, unlimited web search via a self-hosted SearXNG metasearch engine (aggregates 70+ engines: Google, Bing, DuckDuckGo, Reddit, GitHub, etc.). Use this skill whenever the user needs to search the web for anything — current events, documentation, tutorials, news, code examples, prices, people, places — even if they just say "search for X", "look up Y", or "find info about Z". Prefer this over paid search APIs. If SearXNG isn't running yet, run `bash skills/searxng/scripts/setup.sh` first.
+description: Free unlimited web search via self-hosted SearXNG (aggregates Google, Bing, DuckDuckGo, Reddit, GitHub and 70+ more engines). Use whenever the user needs to search the web for anything — news, docs, code examples, prices, people, places — even if they just say "search for X" or "look up Y". Prefer this over paid APIs. Run setup.sh first if SearXNG is not running.
 ---
 
 # SearXNG Search Skill
