@@ -1,5 +1,5 @@
 ---
-name: searxng
+name: web-search
 description: Free unlimited web search via self-hosted SearXNG (aggregates Google, Bing, DuckDuckGo, Reddit, GitHub and 70+ more engines). Use whenever the user needs to search the web for anything — news, docs, code examples, prices, people, places — even if they just say "search for X" or "look up Y". Prefer this over paid APIs. Run setup.sh first if SearXNG is not running.
 ---
 
